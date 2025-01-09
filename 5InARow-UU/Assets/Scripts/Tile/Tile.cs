@@ -10,11 +10,14 @@ public class Tile : MonoBehaviour
 
     public Vector2 TilePosition;
 
+    public GameObject tilePiece;
+
     public void PlaceTile(TileState player)
     {
         State = player;
 
-        GetComponent<SpriteRenderer>().color = player switch
+        tilePiece.SetActive(true);
+        tilePiece.GetComponent<SpriteRenderer>().color = player switch
         {
             TileState.PLAYER1 => Color.blue,
             TileState.PLAYER2 => Color.red,
@@ -32,29 +35,41 @@ public class Tile : MonoBehaviour
 
     void OnMouseEnter()
     {
-        GetComponent<SpriteRenderer>().color = State switch
-        {
-            TileState.PLAYER1 => new Color(0, 0, 0.8f),
-            TileState.PLAYER2 => new Color(0.8f, 0, 0),
-            TileState.NEUTRAL => new Color(0.8f, 0.8f, 0.8f),
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        if (GameController.Instance.gameOver)
+            return;
+
+        GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+
+        if (tilePiece.activeSelf)
+            tilePiece.GetComponent<SpriteRenderer>().color = State switch
+            {
+                TileState.PLAYER1 => new Color(0, 0, 0.8f),
+                TileState.PLAYER2 => new Color(0.8f, 0, 0),
+                TileState.NEUTRAL => new Color(0.8f, 0.8f, 0.8f),
+                _ => throw new ArgumentOutOfRangeException()
+            };
     }
 
     void OnMouseExit()
     {
-        GetComponent<SpriteRenderer>().color = State switch
-        {
-            TileState.PLAYER1 => Color.blue,
-            TileState.PLAYER2 => Color.red,
-            TileState.NEUTRAL => Color.white,
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        if (GameController.Instance.gameOver)
+            return;
+
+        GetComponent<SpriteRenderer>().color = Color.white;
+
+        if (tilePiece.activeSelf)
+            tilePiece.GetComponent<SpriteRenderer>().color = State switch
+            {
+                TileState.PLAYER1 => Color.blue,
+                TileState.PLAYER2 => Color.red,
+                TileState.NEUTRAL => Color.white,
+                _ => throw new ArgumentOutOfRangeException()
+            };
     }
 
     void OnMouseDown()
     {
-        if (State != TileState.NEUTRAL)
+        if (State != TileState.NEUTRAL || GameController.Instance.gameOver)
             return;
 
         PlaceTile(GameController.Instance.IsPlayerTurn ? TileState.PLAYER1 : TileState.PLAYER2);
