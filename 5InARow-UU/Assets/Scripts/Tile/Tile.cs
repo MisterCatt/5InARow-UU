@@ -14,6 +14,9 @@ public class Tile : MonoBehaviour
 
     public void PlaceTile(TileState player)
     {
+        if (State != TileState.NEUTRAL || GameController.Instance.gameOver)
+            return;
+
         State = player;
 
         tilePiece.SetActive(true);
@@ -25,10 +28,7 @@ public class Tile : MonoBehaviour
             _ => throw new ArgumentOutOfRangeException(nameof(player), player, null)
         };
 
-        foreach (var tile in GameController.Instance.GameMap.Where(tile => tile.IsNode(TilePosition)))
-        {
-            tile.State = player;
-        }
+        GameController.Instance.GameMap[(int)TilePosition.x, (int)TilePosition.y].State = player;
 
         GameController.Instance.SwapTurn();
     }
@@ -69,9 +69,6 @@ public class Tile : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (State != TileState.NEUTRAL || GameController.Instance.gameOver)
-            return;
-
         PlaceTile(GameController.Instance.IsPlayerTurn ? TileState.PLAYER1 : TileState.PLAYER2);
     }
 }

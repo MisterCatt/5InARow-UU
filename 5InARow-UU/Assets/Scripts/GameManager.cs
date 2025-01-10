@@ -8,7 +8,8 @@ public class GameManager : StateMachine
 
     public static GameManager Instance;
 
-    bool OpponentHuman = false;
+    public bool OpponentHuman = false;
+    public int AIDifficulty = 0;
 
     public Vector2 boardSize = new Vector2(15,15);
 
@@ -32,9 +33,23 @@ public class GameManager : StateMachine
             SwitchState<ST_MainMenu>();
     }
 
-    public void StartGame(bool human)
+    public void StartGame()
     {
-        OpponentHuman = human;
+        OpponentHuman = true;
+        SceneManager.LoadScene(1);
+    }
+
+    public void StartEasyGame()
+    {
+        AIDifficulty = 0;
+        OpponentHuman = false;
+        SceneManager.LoadScene(1);
+    }
+
+    public void StartHardGame()
+    {
+        AIDifficulty = 1;
+        OpponentHuman = false;
         SceneManager.LoadScene(1);
     }
 
