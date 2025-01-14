@@ -17,6 +17,7 @@ public class GameController : StateMachine
     public TMP_Text turnText;
 
     public Node[,] GameMap;
+    public List<Node> placedNodes;
 
     public List<GameObject> AITypes;
 
@@ -44,7 +45,9 @@ public class GameController : StateMachine
 
         totalRoundsAllowed = 15 * 15;
 
-        if(GameManager.Instance)
+        placedNodes = new List<Node>();
+
+        if (GameManager.Instance)
             if(!GameManager.Instance.OpponentHuman)
                 AITypes[GameManager.Instance.AIDifficulty].SetActive(true);
     }
@@ -59,7 +62,7 @@ public class GameController : StateMachine
     public Node GetTileAt(Vector2 position)
     {
         Debug.Log(position);
-        return position.y >= 15 || position.x >= 15 ? null : GameMap[(int)position.x, (int)position.y];
+        return GameMap[(int)position.x, (int)position.y];
     }
 
     public void SwapTurn()

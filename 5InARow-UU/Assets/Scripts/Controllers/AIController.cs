@@ -35,7 +35,7 @@ public class AiNode
 
     private int point = 0;
 
-    public void AddValue() => point++;
+    public void SetValue(int value) => point = value;
     public void RemoveValue() => point--;
     public int GetNodeValue() => point;
 }

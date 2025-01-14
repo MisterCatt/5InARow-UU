@@ -30,6 +30,8 @@ public class Tile : MonoBehaviour
 
         GameController.Instance.GameMap[(int)TilePosition.x, (int)TilePosition.y].State = player;
 
+        GameController.Instance.placedNodes.Add(new Node(new Vector2((int)TilePosition.x, (int)TilePosition.y), player));
+
         GameController.Instance.SwapTurn();
     }
 
