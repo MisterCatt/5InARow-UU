@@ -61,7 +61,6 @@ public class GameController : StateMachine
 
     public Node GetTileAt(Vector2 position)
     {
-        Debug.Log(position);
         return GameMap[(int)position.x, (int)position.y];
     }
 
