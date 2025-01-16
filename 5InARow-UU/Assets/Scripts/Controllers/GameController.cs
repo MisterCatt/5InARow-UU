@@ -61,6 +61,11 @@ public class GameController : StateMachine
 
     public Node GetTileAt(Vector2 position)
     {
+        if(position.y is < 0 or >= 15 )
+            return null;
+        if(position.x is >= 15 or < 0)
+            return null;
+
         return GameMap[(int)position.x, (int)position.y];
     }
 
@@ -180,6 +185,10 @@ public class GameController : StateMachine
 
     public Tile GetTileAtPosition(Vector2 position)
     {
+        if (position.y is < 0 or >= 15)
+            return null;
+        if (position.x is >= 15 or < 0)
+            return null;
         return GameObject.Find($"{(int)position.x},{(int)position.y}").GetComponent<Tile>();
     }
 

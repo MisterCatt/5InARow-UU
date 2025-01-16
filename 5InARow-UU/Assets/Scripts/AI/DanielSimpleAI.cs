@@ -94,13 +94,19 @@ public class DanielSimpleAI : AIController
 
     private void LookRight(Node node, int iterations = 5)
     {
+        if (node == null)
+            return;
+
         StringBuilder sb = new StringBuilder(_comparitor);
         AiNode aiNode = new AiNode(node);
 
         for (var x = 0; x < iterations; x++)
         {
             if (node.Position.x + x >= 15)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             switch (GameController.Instance.GetTileAt(new Vector2(node.Position.x + x, node.Position.y)).State)
             {
@@ -110,12 +116,15 @@ public class DanielSimpleAI : AIController
                 case TileState.PLAYER1:
                     sb[x] = '2';
                     if(node.State == TileState.NEUTRAL)
-                        aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                        aiNode.SetValue(aiNode.GetNodeValue() + 1);
                     break;
                 case TileState.PLAYER2:
                     sb[x] = '1';
                     if (node.State == TileState.NEUTRAL)
                         aiNode.SetValue(aiNode.GetNodeValue()+2);
+                    break;
+                default:
+                    Debug.Log("Tile is outside of the board, skipping this tile");
                     break;
             }
         }
@@ -138,13 +147,18 @@ public class DanielSimpleAI : AIController
 
     private void LookUp(Node node, int iterations = 5)
     {
+        if (node == null)
+            return;
         StringBuilder sb = new StringBuilder(_comparitor);
         AiNode aiNode = new AiNode(node);
 
         for (var y = 0; y < iterations; y++)
         {
             if (node.Position.y + y >= 15)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             switch (GameController.Instance.GetTileAt(new Vector2(node.Position.x, node.Position.y+y)).State)
             {
@@ -154,12 +168,15 @@ public class DanielSimpleAI : AIController
                 case TileState.PLAYER1:
                     sb[y] = '2';
                     if (node.State == TileState.NEUTRAL)
-                        aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                        aiNode.SetValue(aiNode.GetNodeValue() + 1);
                     break;
                 case TileState.PLAYER2:
                     sb[y] = '1';
                     if (node.State == TileState.NEUTRAL)
                         aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                    break;
+                default:
+                    Debug.Log("Tile is outside of the board, skipping this tile");
                     break;
             }
         }
@@ -182,16 +199,24 @@ public class DanielSimpleAI : AIController
 
     private void LookDiagonalUp(Node node, int iterations = 5)
     {
+        if (node == null)
+            return;
         StringBuilder sb = new StringBuilder(_comparitor);
         AiNode aiNode = new AiNode(node);
 
         for (var y = 0; y < iterations; y++)
         {
             if (node.Position.y + y >= 15)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             if (node.Position.x + y >= 15)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             switch (GameController.Instance.GetTileAt(new Vector2(node.Position.x + y, node.Position.y + y)).State)
             {
@@ -201,12 +226,15 @@ public class DanielSimpleAI : AIController
                 case TileState.PLAYER1:
                     sb[y] = '2';
                     if (node.State == TileState.NEUTRAL)
-                        aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                        aiNode.SetValue(aiNode.GetNodeValue() + 1);
                     break;
                 case TileState.PLAYER2:
                     sb[y] = '1';
                     if (node.State == TileState.NEUTRAL)
                         aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                    break;
+                default:
+                    Debug.Log("Tile is outside of the board, skipping this tile");
                     break;
             }
         }
@@ -229,16 +257,24 @@ public class DanielSimpleAI : AIController
 
     private void LookDiagonalDown(Node node, int iterations = 5)
     {
+        if (node == null)
+            return;
         StringBuilder sb = new StringBuilder(_comparitor);
         AiNode aiNode = new AiNode(node);
 
         for (var y = 0; y < iterations; y++)
         {
             if (node.Position.y - y < 0)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             if (node.Position.x + y >= 15)
+            {
+                aiNode.SetValue(-1000);
                 break;
+            }
 
             switch (GameController.Instance.GetTileAt(new Vector2(node.Position.x + y, node.Position.y - y)).State)
             {
@@ -248,12 +284,15 @@ public class DanielSimpleAI : AIController
                 case TileState.PLAYER1:
                     sb[y] = '2';
                     if (node.State == TileState.NEUTRAL)
-                        aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                        aiNode.SetValue(aiNode.GetNodeValue() + 1);
                     break;
                 case TileState.PLAYER2:
                     sb[y] = '1';
                     if (node.State == TileState.NEUTRAL)
                         aiNode.SetValue(aiNode.GetNodeValue() + 2);
+                    break;
+                default:
+                    Debug.Log("Tile is outside of the board, skipping this tile");
                     break;
             }
         }
